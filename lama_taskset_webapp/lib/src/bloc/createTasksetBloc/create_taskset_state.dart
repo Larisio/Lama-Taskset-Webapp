@@ -1,1 +1,1 @@
-abstract class CreateTasksetState {}
+class CreateTasksetState {}

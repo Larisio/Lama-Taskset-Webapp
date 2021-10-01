@@ -1,1 +1,1 @@
-abstract class HomeScreenState {}
+class HomeScreenState {}

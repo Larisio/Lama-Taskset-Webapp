@@ -17,7 +17,7 @@ import 'home_screen_state.dart';
 /// Author: L.Kammerer
 /// latest Changes: 14.07.2021
 class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
-  HomeScreenBloc({HomeScreenState? initialState}) : super(initialState!);
+  HomeScreenBloc() : super(HomeScreenState());
 
   @override
   Stream<HomeScreenState> mapEventToState(HomeScreenEvent event) async* {
