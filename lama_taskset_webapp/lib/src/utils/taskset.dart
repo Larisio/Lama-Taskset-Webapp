@@ -1,4 +1,4 @@
-import 'package:lama_taskset_webapp/tasks/task.dart';
+import 'package:lama_taskset_webapp/src/tasks/task.dart';
 
 ///Definition of all field which are used or could be used to create an full Taskset
 ///

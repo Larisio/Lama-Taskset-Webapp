@@ -9,11 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:lama_taskset_webapp/main.dart';
+import 'package:lama_taskset_webapp/src/app.dart';
 
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.
-    await tester.pumpWidget(Start());
+    await tester.pumpWidget(LamaAppWebApp());
 
     // Verify that our counter starts at 0.
     expect(find.text('0'), findsOneWidget);

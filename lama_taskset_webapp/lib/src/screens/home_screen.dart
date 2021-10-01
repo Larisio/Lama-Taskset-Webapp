@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:lama_taskset_webapp/utils/util_colors.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
+
+import '../bloc/homeScreenBloc/home_screen_bloc.dart';
+import '../bloc/homeScreenBloc/home_screen_event.dart';
+import '../bloc/homeScreenBloc/home_screen_state.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -10,11 +15,23 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(), body: _homeView());
+  void initState() {
+    super.initState();
   }
 
-  Widget _homeView() {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(),
+      body: BlocBuilder<HomeScreenBloc, HomeScreenState>(
+        builder: (context, state) {
+          return _homeView(context);
+        },
+      ),
+    );
+  }
+
+  Widget _homeView(BuildContext context) {
     return Center(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
@@ -45,7 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
             ],
           ),
         ),
-        onPressed: () => {},
+        onPressed: () => {
+          context
+              .read<HomeScreenBloc>()
+              .add(HomeScreenCreateTasksetEvent(context))
+        },
       ),
     );
   }
