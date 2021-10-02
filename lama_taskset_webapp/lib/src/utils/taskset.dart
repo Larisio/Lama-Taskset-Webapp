@@ -1,3 +1,5 @@
+import 'package:lama_taskset_webapp/src/subjects/math.dart';
+import 'package:lama_taskset_webapp/src/subjects/subject.dart';
 import 'package:lama_taskset_webapp/src/tasks/task.dart';
 
 ///Definition of all field which are used or could be used to create an full Taskset
@@ -18,20 +20,29 @@ abstract class TasksetFields {
 ///Author: L. Kammerer
 ///Last changes: 30.09.2021
 class Taskset {
-  String tasksetName;
-  String tasksetSubject;
+  String? tasksetName;
+  Subject? tasksetSubject = MathSubject();
   int tasksetGrade;
   List<Task> tasks = [];
   bool tasksetRandomizeOrder;
-  int tasksetChooseAmount;
+  int? tasksetChooseAmount;
+
+  static final List<String> legalGrades = [
+    "Klasse 1",
+    "Klasse 2",
+    "Klasse 3",
+    "Klasse 4",
+    "Klasse 5",
+    "Klasse 6",
+  ];
 
   Taskset(
-      {required this.tasksetName,
-      required this.tasksetSubject,
-      required this.tasksetGrade,
+      {this.tasksetName,
+      this.tasksetSubject,
+      this.tasksetGrade = 0,
       this.tasks = const [],
       this.tasksetRandomizeOrder = false,
-      this.tasksetChooseAmount = -1});
+      this.tasksetChooseAmount});
 
   Map<String, dynamic> toJson() => toMap();
 
