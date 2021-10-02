@@ -1,1 +1,3 @@
-class CreateTasksetState {}
+abstract class CreateTasksetState {}
+
+class EditTasksetState extends CreateTasksetState {}

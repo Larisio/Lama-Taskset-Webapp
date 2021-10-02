@@ -20,12 +20,12 @@ abstract class TasksetFields {
 ///Author: L. Kammerer
 ///Last changes: 30.09.2021
 class Taskset {
-  String? tasksetName;
-  Subject? tasksetSubject = MathSubject();
-  int tasksetGrade;
+  String? name;
+  Subject subject = MathSubject();
+  int grade;
   List<Task> tasks = [];
-  bool tasksetRandomizeOrder;
-  int? tasksetChooseAmount;
+  bool randomizeOrder;
+  int? chooseAmount;
 
   static final List<String> legalGrades = [
     "Klasse 1",
@@ -37,23 +37,34 @@ class Taskset {
   ];
 
   Taskset(
-      {this.tasksetName,
-      this.tasksetSubject,
-      this.tasksetGrade = 0,
+      {this.name,
+      this.grade = 0,
+      tasksetSubject,
       this.tasks = const [],
-      this.tasksetRandomizeOrder = false,
-      this.tasksetChooseAmount});
+      this.randomizeOrder = false,
+      this.chooseAmount = 0}) {
+    this.subject = tasksetSubject ?? MathSubject();
+  }
 
   Map<String, dynamic> toJson() => toMap();
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      TasksetFields.tasksetName: tasksetName,
-      TasksetFields.tasksetSubject: tasksetSubject,
-      TasksetFields.tasksetGrade: tasksetGrade,
+      TasksetFields.tasksetName: name,
+      TasksetFields.tasksetSubject: subject,
+      TasksetFields.tasksetGrade: grade,
       TasksetFields.tasks: tasks,
-      TasksetFields.tasksetRandomizeOrder: tasksetRandomizeOrder,
-      TasksetFields.tasksetChooseAmount: tasksetChooseAmount
+      TasksetFields.tasksetRandomizeOrder: randomizeOrder,
+      TasksetFields.tasksetChooseAmount: chooseAmount
     };
+  }
+
+  String toString() {
+    String line = "\n ---------------------------------------------------- \n";
+    int tasksLength = tasks.length;
+    String subjectName = subject.name;
+    return line +
+        '\n Name: $name \n Subject: $subjectName \n Grade: $grade \n Tasks: $tasksLength \n ChooseAmount: $chooseAmount \n RandonOrder: $randomizeOrder \n' +
+        line;
   }
 }
