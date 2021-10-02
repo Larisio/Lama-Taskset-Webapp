@@ -33,41 +33,51 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _homeView(BuildContext context) {
     return Center(
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: UtilsColors.greyAccent,
-        ),
-        child: Container(
-          width: 200,
-          height: 250,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 50),
-              Icon(
-                Icons.add_rounded,
-                size: 60,
-                color: UtilsColors.greyPrimary,
-              ),
-              SizedBox(height: 75),
-              Text(
-                "Aufgabenpaket erstellen",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: UtilsColors.greyPrimary,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-            ],
-          ),
-        ),
-        onPressed: () => {
-          context
-              .read<HomeScreenBloc>()
-              .add(HomeScreenCreateTasksetEvent(context))
-        },
+        child: _homeButtons(
+            Icon(
+              Icons.add_rounded,
+              size: 60,
+              color: UtilsColors.greyPrimary,
+            ),
+            "Aufgabenpaket erstellen",
+            () => {
+                  context
+                      .read<HomeScreenBloc>()
+                      .add(HomeScreenCreateTasksetEvent(context))
+                }));
+  }
+
+  Widget _homeButtons(
+    Icon icon,
+    String text,
+    VoidCallback function,
+  ) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        primary: UtilsColors.greyAccent,
       ),
+      child: Container(
+        width: 200,
+        height: 250,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SizedBox(height: 50),
+            icon,
+            SizedBox(height: 75),
+            Text(
+              text,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: UtilsColors.greyPrimary,
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+            ),
+          ],
+        ),
+      ),
+      onPressed: function,
     );
   }
 }

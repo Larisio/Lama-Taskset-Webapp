@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lama_taskset_webapp/src/bloc/createTasksetBloc/create_taskset_bloc.dart';
+import 'package:lama_taskset_webapp/src/router.dart';
 import 'package:lama_taskset_webapp/src/screens/create_taskset_screen.dart';
 
 import 'home_screen_event.dart';
@@ -25,14 +25,6 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   }
 
   void _createTaskset(BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => BlocProvider(
-          create: (BuildContext context) => CreateTasksetBloc(),
-          child: CreateTasksetScreen(),
-        ),
-      ),
-    );
+    Navigator.pushReplacementNamed(context, WebAppRouter.createTaskset);
   }
 }

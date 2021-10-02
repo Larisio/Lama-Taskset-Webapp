@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lama_taskset_webapp/src/bloc/createTasksetBloc/create_taskset_bloc.dart';
 import 'package:lama_taskset_webapp/src/bloc/createTasksetBloc/create_taskset_state.dart';
+import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
 
 class CreateTasksetScreen extends StatefulWidget {
   CreateTasksetScreen({Key? key}) : super(key: key);
@@ -21,8 +22,16 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
       appBar: AppBar(),
       body: BlocBuilder<CreateTasksetBloc, CreateTasksetState>(
         builder: (context, state) {
-          return Text('Hier');
+          return _editTaskset(context);
         },
+      ),
+    );
+  }
+
+  Widget _editTaskset(BuildContext context) {
+    return Center(
+      child: Container(
+        color: UtilsColors.greyAccent,
       ),
     );
   }
