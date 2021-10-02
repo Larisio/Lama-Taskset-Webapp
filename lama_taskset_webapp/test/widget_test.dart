@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:lama_taskset_webapp/main.dart';
 import 'package:lama_taskset_webapp/src/app.dart';
 
 void main() {
