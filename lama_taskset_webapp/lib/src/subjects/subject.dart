@@ -7,5 +7,5 @@ abstract class Subject {
   final String name;
   List<Task>? legalTasks = [];
 
-  Subject({required this.name, this.legalTasks});
+  Subject({required this.name, required this.legalTasks});
 }

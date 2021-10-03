@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 abstract class TaskFields {
   static final String taskTyp = 'task_type';
@@ -19,6 +19,8 @@ abstract class Task extends StatelessWidget {
       required this.lamaText,
       required this.leftToSolve});
 
+  Widget listTile();
   Map<String, dynamic> toJson() => toMap();
   Map<String, dynamic> toMap();
+  bool isValid();
 }

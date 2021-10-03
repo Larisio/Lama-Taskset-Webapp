@@ -28,6 +28,7 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
           Column(
             children: [
               _editTasksetButton(context),
+              _addTaskButton(context),
               BlocBuilder<CreateTasksetBloc, CreateTasksetState>(
                   builder: (context, state) {
                 return Expanded(
@@ -63,5 +64,26 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
         shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(0)),
       ),
     );
+  }
+
+  Widget _addTaskButton(BuildContext context) {
+    return ElevatedButton.icon(
+      onPressed: () =>
+          context.read<CreateTasksetBloc>().add(ShowAddTasksEvent()),
+      icon: Icon(Icons.add),
+      label: Text(
+        "Aufgabe hinzufügen",
+        style: TextStyle(fontSize: 16),
+      ),
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(275, 60),
+        primary: UtilsColors.bluePrimary,
+        shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(0)),
+      ),
+    );
+  }
+
+  Widget _availibleTasksList(Taskset taskset) {
+    return ListView();
   }
 }

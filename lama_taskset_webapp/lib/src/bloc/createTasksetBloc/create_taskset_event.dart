@@ -1,8 +1,19 @@
+import 'package:lama_taskset_webapp/src/tasks/task.dart';
+
 abstract class CreateTasksetEvent {}
 
+//Editing Events
 class EditTasksetEvent extends CreateTasksetEvent {}
 
 class FinishEditTasksetEvent extends CreateTasksetEvent {}
+
+//Add Task Events
+class ShowAddTasksEvent extends CreateTasksetEvent {}
+
+class AddTaskToTasksetEvent extends CreateTasksetEvent {
+  Task task;
+  AddTaskToTasksetEvent(this.task);
+}
 
 class CTChangeNameEvent extends CreateTasksetEvent {
   String name;
