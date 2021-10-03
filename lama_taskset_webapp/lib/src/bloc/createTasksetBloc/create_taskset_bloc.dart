@@ -16,12 +16,16 @@ import 'create_taskset_state.dart';
 /// Author: L.Kammerer
 /// latest Changes: 14.07.2021
 class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
-  CreateTasksetBloc() : super(EditTasksetState());
+  CreateTasksetBloc() : super(EditTasksetState(Taskset()));
   Taskset taskset = Taskset();
 
   @override
   Stream<CreateTasksetState> mapEventToState(CreateTasksetEvent event) async* {
-    if (event is FinishEditTasksetEvent) print(taskset.toString());
+    if (event is FinishEditTasksetEvent) {
+      print(taskset.toString());
+      yield EmptyTasksetState();
+    }
+    if (event is EditTasksetEvent) yield EditTasksetState(taskset);
 
     ///Change events
     if (event is CTChangeNameEvent) taskset.name = event.name;
