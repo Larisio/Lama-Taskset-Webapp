@@ -19,7 +19,7 @@ abstract class Task extends StatelessWidget {
       required this.lamaText,
       required this.leftToSolve});
 
-  Widget listTile();
+  ListTile listTile({GestureTapCallback? function});
   Map<String, dynamic> toJson() => toMap();
   Map<String, dynamic> toMap();
   bool isValid();

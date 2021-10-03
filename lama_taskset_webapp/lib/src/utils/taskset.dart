@@ -61,10 +61,11 @@ class Taskset {
 
   String toString() {
     String line = "\n ---------------------------------------------------- \n";
+    String legalSubjectLength = subject.legalTasks!.length.toString();
     int tasksLength = tasks.length;
     String subjectName = subject.name;
     return line +
-        '\n Name: $name \n Subject: $subjectName \n Grade: $grade \n Tasks: $tasksLength \n ChooseAmount: $chooseAmount \n RandonOrder: $randomizeOrder \n' +
+        '\n Name: $name \n Subject: $subjectName ($legalSubjectLength) \n Grade: $grade \n Tasks: $tasksLength \n ChooseAmount: $chooseAmount \n RandonOrder: $randomizeOrder \n' +
         line;
   }
 }

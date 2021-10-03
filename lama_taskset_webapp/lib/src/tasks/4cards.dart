@@ -22,17 +22,17 @@ class FourCards extends Task {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+    return Text("4Cards");
   }
 
   @override
-  Widget listTile() {
+  ListTile listTile({GestureTapCallback? function}) {
     return ListTile(
+      onTap: function,
       title: Column(
         children: [
           Text(taskTyp),
-          Text(question ?? "leer"),
+          question != null ? Text(question ?? "leer") : SizedBox(),
         ],
       ),
     );

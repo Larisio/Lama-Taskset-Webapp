@@ -21,11 +21,20 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
 
   @override
   Stream<CreateTasksetState> mapEventToState(CreateTasksetEvent event) async* {
+    //Edit Taskset Events
+    if (event is EditTasksetEvent) yield EditTasksetState(taskset);
     if (event is FinishEditTasksetEvent) {
       print(taskset.toString());
       yield EmptyTasksetState();
     }
-    if (event is EditTasksetEvent) yield EditTasksetState(taskset);
+
+    //Add task Events
+    if (event is ShowAddTasksEvent)
+      yield ViewAvailableTasksTasksetState(taskset);
+    if (event is AddTaskToTasksetEvent) {
+      taskset.tasks.add(event.task);
+      yield EditTaskInTaskset(event.task);
+    }
 
     ///Change events
     if (event is CTChangeNameEvent) taskset.name = event.name;
