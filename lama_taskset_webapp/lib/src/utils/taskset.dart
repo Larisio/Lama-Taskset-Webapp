@@ -24,6 +24,7 @@ class Taskset {
   Subject subject = MathSubject();
   int grade;
   List<Task> tasks = [];
+  List<String> test = [];
   bool randomizeOrder;
   int? chooseAmount;
 
@@ -40,7 +41,6 @@ class Taskset {
       {this.name,
       this.grade = 0,
       tasksetSubject,
-      this.tasks = const [],
       this.randomizeOrder = false,
       this.chooseAmount = 0}) {
     this.subject = tasksetSubject ?? MathSubject();
@@ -61,7 +61,7 @@ class Taskset {
 
   String toString() {
     String line = "\n ---------------------------------------------------- \n";
-    String legalSubjectLength = subject.legalTasks!.length.toString();
+    String legalSubjectLength = subject.legalTasks.length.toString();
     int tasksLength = tasks.length;
     String subjectName = subject.name;
     return line +

@@ -5,7 +5,7 @@ import 'package:lama_taskset_webapp/src/tasks/task.dart';
 abstract class Subject {
   static List<Subject> legalSubjects = [MathSubject(), GermanSubject()];
   final String name;
-  List<Task>? legalTasks = [];
+  List<Task> legalTasks = [];
 
   Subject({required this.name, required this.legalTasks});
 }

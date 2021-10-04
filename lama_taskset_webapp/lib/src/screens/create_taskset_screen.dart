@@ -46,7 +46,7 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
                 if (state is ViewAvailableTasksTasksetState)
                   return _availibleTasksList(context, state.taskset);
                 if (state is EditTaskInTaskset) {
-                  return state.task;
+                  return state.task.view(context);
                 }
                 return Container();
               },
@@ -101,13 +101,17 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
           child: Scrollbar(
             child: ListView.builder(
               shrinkWrap: true,
-              itemCount: taskset.subject.legalTasks!.length,
+              itemCount: taskset.subject.legalTasks.length,
               itemBuilder: (context, index) {
                 return Card(
-                  child: taskset.subject.legalTasks![index].listTile(
-                      function: () => context.read<CreateTasksetBloc>().add(
-                          AddTaskToTasksetEvent(
-                              taskset.subject.legalTasks![index]))),
+                  child: taskset.subject.legalTasks[index].listTile(
+                    function: () => {
+                      context.read<CreateTasksetBloc>().add(
+                            AddTaskToTasksetEvent(
+                                taskset.subject.legalTasks[index]),
+                          )
+                    },
+                  ),
                 );
               },
             ),

@@ -21,7 +21,7 @@ class FourCards extends Task {
             leftToSolve: 3);
 
   @override
-  Widget build(BuildContext context) {
+  Widget view(BuildContext context) {
     return Text("4Cards");
   }
 

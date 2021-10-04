@@ -7,7 +7,7 @@ abstract class TaskFields {
   static final String leftToSolve = 'left_to_solve';
 }
 
-abstract class Task extends StatelessWidget {
+abstract class Task {
   final String taskTyp;
   final int taskReward;
   final String lamaText;
@@ -19,6 +19,7 @@ abstract class Task extends StatelessWidget {
       required this.lamaText,
       required this.leftToSolve});
 
+  Widget view(BuildContext context);
   ListTile listTile({GestureTapCallback? function});
   Map<String, dynamic> toJson() => toMap();
   Map<String, dynamic> toMap();
