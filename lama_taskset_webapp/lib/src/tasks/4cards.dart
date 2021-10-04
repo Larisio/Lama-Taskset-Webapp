@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lama_taskset_webapp/src/tasks/task.dart';
+import 'package:lama_taskset_webapp/src/utils/input_validation.dart';
+import 'package:lama_taskset_webapp/src/utils/lama_text_theme.dart';
+import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
 
 abstract class FourCardsFields {
   static final String question = "question";
@@ -9,16 +12,16 @@ abstract class FourCardsFields {
 
 // ignore: must_be_immutable
 class FourCards extends Task {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? question;
   String? rightAnswer;
-  List<String>? wrongAnswers;
+  List<String> wrongAnswers = ["falsch", "falsch", "falsch"];
 
   FourCards(
       {this.question,
       this.rightAnswer,
-      this.wrongAnswers,
       taskTyp = "4Cards",
-      taskReward = 4,
+      taskReward = 2,
       lamaText = "Tippe die Richtige Antwort an!",
       leftToSolve = 3})
       : super(
@@ -30,20 +33,26 @@ class FourCards extends Task {
 
   @override
   Widget view(BuildContext context) {
-    return TextFormField(
-      initialValue: question,
-      onChanged: (value) => question = value,
+    return Form(
+      key: _formKey,
+      child: Column(
+        children: [
+          _oragneBox(),
+          _cardsOneBox(),
+          SizedBox(height: 50),
+          _cardsTwoBox()
+        ],
+      ),
     );
   }
 
   @override
-  ListTile listTile({GestureTapCallback? function}) {
+  ListTile listTile({GestureTapCallback? function, bool errorCheck = false}) {
     return ListTile(
       onTap: function,
       title: Column(
         children: [
           Text(taskTyp),
-          question != null ? Text(question ?? "leer") : SizedBox(),
         ],
       ),
     );
@@ -65,7 +74,7 @@ class FourCards extends Task {
 
   @override
   bool isValid() {
-    return true;
+    return _formKey.currentState!.validate() && headIsValid();
   }
 
   @override
@@ -73,10 +82,144 @@ class FourCards extends Task {
     return new FourCards(
         question: this.question,
         rightAnswer: this.rightAnswer,
-        wrongAnswers: this.wrongAnswers,
         taskTyp: this.taskTyp,
         taskReward: this.taskReward,
         lamaText: this.lamaText,
         leftToSolve: this.leftToSolve);
+  }
+
+  Widget _oragneBox() {
+    return Container(
+      padding: EdgeInsets.fromLTRB(50, 50, 50, 25),
+      height: 275,
+      child: Container(
+        padding: EdgeInsets.all(25),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+          gradient: LinearGradient(
+            colors: [UtilsColors.orangeAccent, UtilsColors.orangePrimary],
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.5),
+              spreadRadius: 5,
+              blurRadius: 7,
+              offset: Offset(0, 3),
+            )
+          ],
+        ),
+        child: Align(
+          child: TextFormField(
+            initialValue: question,
+            validator: (value) => InputValidation.inputFieldIsEmpty(value),
+            onChanged: (value) => {question = value},
+            style: LamaTextTheme.getStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _cardsOneBox() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 200,
+          height: 150,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: UtilsColors.greenAccent,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: Offset(0, 3))
+              ]),
+          child: TextFormField(
+            initialValue: rightAnswer,
+            validator: (value) => InputValidation.inputFieldIsEmpty(value),
+            onChanged: (value) => {rightAnswer = value},
+            style: LamaTextTheme.getStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(width: 50),
+        Container(
+          width: 200,
+          height: 150,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: UtilsColors.redAccent,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: Offset(0, 3))
+              ]),
+          child: TextFormField(
+            initialValue: wrongAnswers[0],
+            validator: (value) => InputValidation.inputFieldIsEmpty(value),
+            onChanged: (value) => {wrongAnswers[0] = value},
+            style: LamaTextTheme.getStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _cardsTwoBox() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Container(
+          width: 200,
+          height: 150,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: UtilsColors.redAccent,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: Offset(0, 3))
+              ]),
+          child: TextFormField(
+            initialValue: wrongAnswers[1],
+            validator: (value) => InputValidation.inputFieldIsEmpty(value),
+            onChanged: (value) => {wrongAnswers[1] = value},
+            style: LamaTextTheme.getStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+        ),
+        SizedBox(width: 50),
+        Container(
+          width: 200,
+          height: 150,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              color: UtilsColors.redAccent,
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 1,
+                    blurRadius: 7,
+                    offset: Offset(0, 3))
+              ]),
+          child: TextFormField(
+            initialValue: wrongAnswers[2],
+            validator: (value) => InputValidation.inputFieldIsEmpty(value),
+            onChanged: (value) => {wrongAnswers[2] = value},
+            style: LamaTextTheme.getStyle(fontSize: 30),
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ],
+    );
   }
 }

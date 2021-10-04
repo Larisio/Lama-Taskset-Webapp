@@ -47,7 +47,24 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
                   return _availibleTasksList(context, state.taskset);
                 if (state is EditTaskInTasksetState) {
                   return Center(
-                    child: state.task.view(context),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          color: UtilsColors.greyAccent,
+                          height: 800,
+                          width: 500,
+                          child: state.task.view(context),
+                        ),
+                        SizedBox(width: 15),
+                        Container(
+                          color: UtilsColors.greyAccent,
+                          height: 500,
+                          width: 500,
+                          child: state.task.headView(context),
+                        ),
+                      ],
+                    ),
                   );
                 }
                 return Container();
