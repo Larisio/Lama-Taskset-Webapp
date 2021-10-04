@@ -8,11 +8,16 @@ class EditTasksetEvent extends CreateTasksetEvent {}
 class FinishEditTasksetEvent extends CreateTasksetEvent {}
 
 //Add Task Events
-class ShowAddTasksEvent extends CreateTasksetEvent {}
+class ShowAddibleTasksEvent extends CreateTasksetEvent {}
 
 class AddTaskToTasksetEvent extends CreateTasksetEvent {
   Task task;
   AddTaskToTasksetEvent(this.task);
+}
+
+class EditTaskInTasksetEvent extends CreateTasksetEvent {
+  int taskIndex;
+  EditTaskInTasksetEvent(this.taskIndex);
 }
 
 class CTChangeNameEvent extends CreateTasksetEvent {

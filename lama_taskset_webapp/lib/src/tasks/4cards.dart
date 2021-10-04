@@ -13,16 +13,27 @@ class FourCards extends Task {
   String? rightAnswer;
   List<String>? wrongAnswers;
 
-  FourCards({this.question, this.rightAnswer, this.wrongAnswers})
+  FourCards(
+      {this.question,
+      this.rightAnswer,
+      this.wrongAnswers,
+      taskTyp = "4Cards",
+      taskReward = 4,
+      lamaText = "Tippe die Richtige Antwort an!",
+      leftToSolve = 3})
       : super(
-            taskTyp: "4Cards",
-            taskReward: 4,
-            lamaText: "Tippe die Richtige Antwort an!",
-            leftToSolve: 3);
+          taskTyp: taskTyp,
+          taskReward: taskReward,
+          lamaText: lamaText,
+          leftToSolve: leftToSolve,
+        );
 
   @override
   Widget view(BuildContext context) {
-    return Text("4Cards");
+    return TextFormField(
+      initialValue: question,
+      onChanged: (value) => question = value,
+    );
   }
 
   @override
@@ -40,13 +51,32 @@ class FourCards extends Task {
 
   @override
   Map<String, dynamic> toMap() {
-    // TODO: implement toMap
-    throw UnimplementedError();
+    return <String, dynamic>{
+      TaskFields.taskTyp: taskTyp,
+      TaskFields.taskReward: taskReward,
+      TaskFields.lamaText: lamaText,
+      TaskFields.leftToSolve: leftToSolve,
+      //END HEAD
+      FourCardsFields.question: question,
+      FourCardsFields.rightAnswer: rightAnswer,
+      FourCardsFields.wrongAnswers: wrongAnswers
+    };
   }
 
   @override
   bool isValid() {
-    // TODO: implement isValidation
-    throw UnimplementedError();
+    return true;
+  }
+
+  @override
+  Task getCopy() {
+    return new FourCards(
+        question: this.question,
+        rightAnswer: this.rightAnswer,
+        wrongAnswers: this.wrongAnswers,
+        taskTyp: this.taskTyp,
+        taskReward: this.taskReward,
+        lamaText: this.lamaText,
+        leftToSolve: this.leftToSolve);
   }
 }

@@ -33,7 +33,7 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
               _addTaskButton(context),
               BlocBuilder<CreateTasksetBloc, CreateTasksetState>(
                 builder: (context, state) {
-                  return Container();
+                  return _tasksetTasksListView(context, state.taskset);
                 },
               ),
             ],
@@ -45,8 +45,10 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
                   return EditTaskset(taskset: state.taskset);
                 if (state is ViewAvailableTasksTasksetState)
                   return _availibleTasksList(context, state.taskset);
-                if (state is EditTaskInTaskset) {
-                  return state.task.view(context);
+                if (state is EditTaskInTasksetState) {
+                  return Center(
+                    child: state.task.view(context),
+                  );
                 }
                 return Container();
               },
@@ -77,7 +79,7 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
   Widget _addTaskButton(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () =>
-          context.read<CreateTasksetBloc>().add(ShowAddTasksEvent()),
+          context.read<CreateTasksetBloc>().add(ShowAddibleTasksEvent()),
       icon: Icon(Icons.add),
       label: Text(
         "Aufgabe hinzufügen",
@@ -109,6 +111,35 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
                       context.read<CreateTasksetBloc>().add(
                             AddTaskToTasksetEvent(
                                 taskset.subject.legalTasks[index]),
+                          )
+                    },
+                  ),
+                );
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _tasksetTasksListView(BuildContext context, Taskset taskset) {
+    return Expanded(
+      child: Container(
+        color: UtilsColors.greyAccent,
+        width: _sideBarWith - 8,
+        child: Padding(
+          padding: EdgeInsets.all(1),
+          child: Scrollbar(
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: taskset.tasks.length,
+              itemBuilder: (context, index) {
+                return Card(
+                  child: taskset.tasks[index].listTile(
+                    function: () => {
+                      context.read<CreateTasksetBloc>().add(
+                            EditTaskInTasksetEvent(index),
                           )
                     },
                   ),

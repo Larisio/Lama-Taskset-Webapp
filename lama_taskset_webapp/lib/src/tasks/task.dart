@@ -24,4 +24,5 @@ abstract class Task {
   Map<String, dynamic> toJson() => toMap();
   Map<String, dynamic> toMap();
   bool isValid();
+  Task getCopy();
 }

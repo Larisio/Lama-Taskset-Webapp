@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:bloc/bloc.dart';
 import 'package:lama_taskset_webapp/src/subjects/subject.dart';
 import 'package:lama_taskset_webapp/src/utils/taskset.dart';
@@ -25,15 +27,21 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
     if (event is EditTasksetEvent) yield EditTasksetState(taskset);
     if (event is FinishEditTasksetEvent) {
       print(taskset.toString());
-      yield EmptyTasksetState();
+      print(jsonEncode(taskset));
+      yield EmptyTasksetState(taskset);
     }
 
     //Add task Events
-    if (event is ShowAddTasksEvent)
+    if (event is ShowAddibleTasksEvent)
       yield ViewAvailableTasksTasksetState(taskset);
     if (event is AddTaskToTasksetEvent) {
-      taskset.tasks.add(event.task);
-      yield EditTaskInTaskset(event.task);
+      taskset.tasks.add(event.task.getCopy());
+      yield EditTaskInTasksetState(taskset.tasks.last, taskset);
+    }
+    if (event is EditTaskInTasksetEvent) {
+      yield EmptyTasksetState(taskset);
+      await Future.delayed(Duration(milliseconds: 30));
+      yield EditTaskInTasksetState(taskset.tasks[event.taskIndex], taskset);
     }
 
     ///Change events

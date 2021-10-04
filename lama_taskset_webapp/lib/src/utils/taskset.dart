@@ -51,11 +51,11 @@ class Taskset {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       TasksetFields.tasksetName: name,
-      TasksetFields.tasksetSubject: subject,
-      TasksetFields.tasksetGrade: grade,
-      TasksetFields.tasks: tasks,
+      TasksetFields.tasksetSubject: subject.name,
+      TasksetFields.tasksetGrade: grade + 1,
       TasksetFields.tasksetRandomizeOrder: randomizeOrder,
-      TasksetFields.tasksetChooseAmount: chooseAmount
+      TasksetFields.tasksetChooseAmount: chooseAmount,
+      TasksetFields.tasks: tasks
     };
   }
 
