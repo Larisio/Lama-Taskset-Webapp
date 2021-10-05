@@ -28,7 +28,9 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
         backgroundColor: UtilsColors.bluePrimary,
         actions: [
           ElevatedButton.icon(
-            onPressed: () => {},
+            onPressed: () => {
+              context.read<CreateTasksetBloc>().add(TasksetJsonDownloadEvent())
+            },
             icon: Icon(Icons.file_download_outlined),
             label: Text("Als JSON Runterladen"),
             style: ElevatedButton.styleFrom(

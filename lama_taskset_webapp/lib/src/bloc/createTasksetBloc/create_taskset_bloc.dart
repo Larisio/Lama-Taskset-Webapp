@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:html';
 
 import 'package:bloc/bloc.dart';
 import 'package:lama_taskset_webapp/src/subjects/subject.dart';
@@ -23,13 +24,11 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
 
   @override
   Stream<CreateTasksetState> mapEventToState(CreateTasksetEvent event) async* {
+    if (event is TasksetJsonDownloadEvent) _download();
+
     //Edit Taskset Events
     if (event is EditTasksetEvent) yield EditTasksetState(taskset);
-    if (event is FinishEditTasksetEvent) {
-      print(taskset.toString());
-      print(jsonEncode(taskset));
-      yield EmptyTasksetState(taskset);
-    }
+    if (event is FinishEditTasksetEvent) yield EmptyTasksetState(taskset);
 
     //Add task Events
     if (event is ShowAddibleTasksEvent)
@@ -59,5 +58,36 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
           : taskset.chooseAmount = int.tryParse(event.pickAmount);
     if (event is CTChangeRandomOrderEvent)
       taskset.randomizeOrder = event.randomOrder ?? false;
+  }
+
+  /* void _downloadJSON() {
+    print(taskset.toString());
+    print(jsonEncode(taskset));
+
+    File file = // generated somewhere
+    final rawData = file.readAsBytesSync();
+    final content = base64Encode(rawData);
+    final anchor = AnchorElement(
+      href: "data:application/octet-stream;charset=utf-16le;base64,$content")
+    ..setAttribute("download", "${taskset.name}.json")
+    ..click();
+  }
+  */
+  void _download() {
+    List<int> bytes = utf8.encode(jsonEncode(taskset));
+    String downloadName = taskset.name ?? "Aufgabenpaket";
+    // Encode our file in base64
+    final _base64 = base64Encode(bytes);
+    // Create the link with the file
+    final anchor =
+        AnchorElement(href: 'data:application/octet-stream;base64,$_base64')
+          ..target = 'blank';
+    // add the name
+    anchor.download = downloadName + ".json";
+    // trigger download
+    document.body?.append(anchor);
+    anchor.click();
+    anchor.remove();
+    return;
   }
 }

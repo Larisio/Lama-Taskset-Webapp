@@ -45,6 +45,9 @@ class Taskset {
       this.chooseAmount = 0}) {
     this.subject = tasksetSubject ?? MathSubject();
   }
+  bool isValid() {
+    return true;
+  }
 
   Map<String, dynamic> toJson() => toMap();
 
