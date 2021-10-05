@@ -28,7 +28,10 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
 
     //Edit Taskset Events
     if (event is EditTasksetEvent) yield EditTasksetState(taskset);
-    if (event is FinishEditTasksetEvent) yield EmptyTasksetState(taskset);
+    if (event is FinishEditTasksetEvent) {
+      print(taskset.isValid());
+      yield EmptyTasksetState(taskset);
+    }
 
     //Add task Events
     if (event is ShowAddibleTasksEvent)

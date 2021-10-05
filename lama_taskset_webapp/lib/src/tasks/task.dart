@@ -17,6 +17,7 @@ abstract class Task {
   int leftToSolve;
   //[_formKey] should be used to identify every Form in this Screen
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> formKeyChild = GlobalKey<FormState>();
 
   Task(
       {required this.taskTyp,
@@ -58,8 +59,13 @@ abstract class Task {
                   child: TextFormField(
                     initialValue: taskReward.toString(),
                     decoration: InputDecoration(hintText: '0'),
-                    validator: (value) =>
-                        int.tryParse(value!) == null ? "Zahlenwert!" : null,
+                    validator: (value) {
+                      int? check;
+                      check = int.tryParse(value!);
+                      if (check == null || check <= 0)
+                        return "Zahlenwert zu klein!";
+                      return null;
+                    },
                     textAlign: TextAlign.center,
                     onChanged: (value) => int.tryParse(value) != null
                         ? taskReward = int.tryParse(value)!
@@ -79,8 +85,13 @@ abstract class Task {
                   child: TextFormField(
                     initialValue: leftToSolve.toString(),
                     decoration: InputDecoration(hintText: '0'),
-                    validator: (value) =>
-                        int.tryParse(value!) == null ? "Zahlenwert!" : null,
+                    validator: (value) {
+                      int? check;
+                      check = int.tryParse(value!);
+                      if (check == null || check <= 0)
+                        return "Zahlenwert zu klein!";
+                      return null;
+                    },
                     textAlign: TextAlign.center,
                     onChanged: (value) => int.tryParse(value) != null
                         ? leftToSolve = int.tryParse(value)!
@@ -105,8 +116,8 @@ abstract class Task {
             TextButton(
               child: Text("Fertig"),
               onPressed: () {
-                isValid();
-                headIsValid();
+                _formKey.currentState!.validate();
+                formKeyChild.currentState!.validate();
               },
               style: ButtonStyle(
                   minimumSize: MaterialStateProperty.all(Size(150, 50))),
@@ -117,14 +128,14 @@ abstract class Task {
     );
   }
 
-  ListTile listTile({GestureTapCallback? function});
+  ListTile listTile({GestureTapCallback? function, bool errorCheck = false});
   Map<String, dynamic> toJson() => toMap();
   Map<String, dynamic> toMap();
-  bool headIsValid() {
-    return _formKey.currentState!.validate();
+  String? headIsValid() {
+    if (taskReward < 0) return "head error";
   }
 
-  bool isValid();
+  String? isValid();
 
   Task getCopy();
 }

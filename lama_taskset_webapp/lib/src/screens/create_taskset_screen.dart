@@ -175,12 +175,12 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
               itemBuilder: (context, index) {
                 return Card(
                   child: taskset.tasks[index].listTile(
-                    function: () => {
-                      context.read<CreateTasksetBloc>().add(
-                            EditTaskInTasksetEvent(index),
-                          )
-                    },
-                  ),
+                      function: () => {
+                            context.read<CreateTasksetBloc>().add(
+                                  EditTaskInTasksetEvent(index),
+                                )
+                          },
+                      errorCheck: true),
                 );
               },
             ),

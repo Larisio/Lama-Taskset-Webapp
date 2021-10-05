@@ -5,6 +5,5 @@ class MathSubject extends Subject {
   MathSubject()
       : super(name: "Mathematik", legalTasks: [
           FourCards(),
-          FourCards(),
         ]);
 }

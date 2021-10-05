@@ -12,7 +12,6 @@ abstract class FourCardsFields {
 
 // ignore: must_be_immutable
 class FourCards extends Task {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String? question;
   String? rightAnswer;
   List<String> wrongAnswers = ["falsch", "falsch", "falsch"];
@@ -34,7 +33,7 @@ class FourCards extends Task {
   @override
   Widget view(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: formKeyChild,
       child: Column(
         children: [
           _oragneBox(),
@@ -48,6 +47,17 @@ class FourCards extends Task {
 
   @override
   ListTile listTile({GestureTapCallback? function, bool errorCheck = false}) {
+    if (errorCheck) {
+      return ListTile(
+        onTap: function,
+        title: Column(
+          children: [
+            Text(taskTyp),
+            Icon(isValid() != null ? Icons.check : Icons.close)
+          ],
+        ),
+      );
+    }
     return ListTile(
       onTap: function,
       title: Column(
@@ -73,8 +83,9 @@ class FourCards extends Task {
   }
 
   @override
-  bool isValid() {
-    return _formKey.currentState!.validate() && headIsValid();
+  String? isValid() {
+    if (headIsValid() != null) return headIsValid();
+    return "body error";
   }
 
   @override

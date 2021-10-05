@@ -1,6 +1,7 @@
 import 'package:lama_taskset_webapp/src/subjects/math.dart';
 import 'package:lama_taskset_webapp/src/subjects/subject.dart';
 import 'package:lama_taskset_webapp/src/tasks/task.dart';
+import 'package:lama_taskset_webapp/src/utils/input_validation.dart';
 
 ///Definition of all field which are used or could be used to create an full Taskset
 ///
@@ -45,21 +46,35 @@ class Taskset {
       this.chooseAmount = 0}) {
     this.subject = tasksetSubject ?? MathSubject();
   }
-  bool isValid() {
-    return true;
+  String? isValid() {
+    if (InputValidation.isEmpty(name))
+      return "Names des Aufgabenpakets darf nicht leer sein!";
+    if (tasks.length == 0) return "Aufgabenpaket enthält keine Aufgaben!";
+    for (int i = 0; i < tasks.length; i++) {
+      String? check = tasks[i].isValid();
+      if (check != null)
+        return "Fehler in Aufgabe! \n Nummer: $i \n Typ: ${tasks[i].taskTyp} \n Hinweis: $check";
+    }
+    return null;
   }
 
   Map<String, dynamic> toJson() => toMap();
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
+    Map<String, dynamic> map = {
       TasksetFields.tasksetName: name,
       TasksetFields.tasksetSubject: subject.name,
-      TasksetFields.tasksetGrade: grade + 1,
-      TasksetFields.tasksetRandomizeOrder: randomizeOrder,
-      TasksetFields.tasksetChooseAmount: chooseAmount,
-      TasksetFields.tasks: tasks
+      TasksetFields.tasksetGrade: grade + 1
     };
+    if (randomizeOrder)
+      map.addAll(<String, dynamic>{
+        TasksetFields.tasksetRandomizeOrder: randomizeOrder
+      });
+    if (chooseAmount != null && chooseAmount! > 0)
+      map.addAll(
+          <String, dynamic>{TasksetFields.tasksetChooseAmount: chooseAmount});
+    map.addAll(<String, dynamic>{TasksetFields.tasks: tasks});
+    return map;
   }
 
   String toString() {
