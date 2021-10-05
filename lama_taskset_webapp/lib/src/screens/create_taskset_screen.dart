@@ -24,7 +24,22 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: UtilsColors.bluePrimary),
+      appBar: AppBar(
+        backgroundColor: UtilsColors.bluePrimary,
+        actions: [
+          ElevatedButton.icon(
+            onPressed: () => {},
+            icon: Icon(Icons.file_download_outlined),
+            label: Text("Als JSON Runterladen"),
+            style: ElevatedButton.styleFrom(
+              minimumSize: Size(_sideBarWith, 0),
+              shape: BeveledRectangleBorder(
+                borderRadius: BorderRadius.circular(0),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: Row(
         children: [
           Column(
@@ -88,7 +103,9 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
       style: ElevatedButton.styleFrom(
         minimumSize: Size(_sideBarWith, 60),
         primary: UtilsColors.bluePrimary,
-        shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(0)),
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(0),
+        ),
       ),
     );
   }
@@ -105,7 +122,9 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
       style: ElevatedButton.styleFrom(
         minimumSize: Size(_sideBarWith, 60),
         primary: UtilsColors.bluePrimary,
-        shape: BeveledRectangleBorder(borderRadius: BorderRadius.circular(0)),
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(0),
+        ),
       ),
     );
   }

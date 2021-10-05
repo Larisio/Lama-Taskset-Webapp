@@ -2,6 +2,8 @@ import 'package:lama_taskset_webapp/src/tasks/task.dart';
 
 abstract class CreateTasksetEvent {}
 
+class TasksetJsonDownload extends CreateTasksetEvent {}
+
 //Editing Events
 class EditTasksetEvent extends CreateTasksetEvent {}
 
