@@ -6,6 +6,14 @@ import '../bloc/homeScreenBloc/home_screen_bloc.dart';
 import '../bloc/homeScreenBloc/home_screen_event.dart';
 import '../bloc/homeScreenBloc/home_screen_state.dart';
 
+/// * see also
+///    [HomeScreenBloc]
+///    [HomeScreenEvent]
+///    [HomeScreenState]
+///    [Bloc]
+///
+/// Author: L.Kammerer
+/// latest Changes: 01.10.2021
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
 

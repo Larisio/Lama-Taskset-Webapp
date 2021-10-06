@@ -1,7 +1,10 @@
 import 'package:lama_taskset_webapp/src/tasks/task.dart';
 
+/// Author: L.Kammerer
+/// Latest Changes: 06.10.2021
 abstract class CreateTasksetEvent {}
 
+///donwload trigger
 class TasksetJsonDownloadEvent extends CreateTasksetEvent {}
 
 //Editing Events
@@ -27,6 +30,7 @@ class EditTaskInTasksetEvent extends CreateTasksetEvent {
   EditTaskInTasksetEvent(this.taskIndex);
 }
 
+//Change event for taskset data
 class CTChangeNameEvent extends CreateTasksetEvent {
   String name;
   CTChangeNameEvent(this.name);

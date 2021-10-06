@@ -15,7 +15,7 @@ import 'home_screen_state.dart';
 ///    [Bloc]
 ///
 /// Author: L.Kammerer
-/// latest Changes: 14.07.2021
+/// latest Changes: 01.10.2021
 class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   HomeScreenBloc() : super(HomeScreenState());
 

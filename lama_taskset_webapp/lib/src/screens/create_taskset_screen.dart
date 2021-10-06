@@ -8,13 +8,37 @@ import 'package:lama_taskset_webapp/src/utils/taskset.dart';
 import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
 import 'package:lama_taskset_webapp/src/utils/widgets/edits_taskset.dart';
 
+///provides view to:
+/// - configurat an taskset
+/// - edit/add/delete tasks in this taskset
+/// - donwload the taskset as JSON-File
+///
+/// * see also
+///    [CreateTasksetBloc]
+///    [CreateTasksetEvent]
+///    [CreateTasksetState]
+///    [Bloc]
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 class CreateTasksetScreen extends StatefulWidget {
   CreateTasksetScreen({Key? key}) : super(key: key);
   @override
   _CreateTasksetScreenState createState() => _CreateTasksetScreenState();
 }
 
+///provides state for [CreateTasksetScreen]
+///
+/// * see also
+///    [CreateTasksetBloc]
+///    [CreateTasksetEvent]
+///    [CreateTasksetState]
+///    [Bloc]
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
+  //used to adjust the with of the sidebar
   double _sideBarWith = 275;
 
   @override
@@ -28,6 +52,7 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
       appBar: AppBar(
         backgroundColor: UtilsColors.bluePrimary,
         actions: [
+          ///Als JSON Runterladen Button
           ElevatedButton.icon(
             onPressed: () => {
               context.read<CreateTasksetBloc>().add(TasksetJsonDownloadEvent())
@@ -45,6 +70,7 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
       ),
       body: Row(
         children: [
+          ///Sidebar
           Column(
             children: [
               _editTasksetButton(context),
@@ -56,6 +82,8 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
               ),
             ],
           ),
+
+          ///Main view
           Expanded(
             child: BlocBuilder<CreateTasksetBloc, CreateTasksetState>(
               builder: (context, state) {
@@ -77,6 +105,10 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
     );
   }
 
+  ///(private)
+  ///
+  ///provides button to switch to the "edit taskset view",
+  ///were the taskset metaData can been changed
   Widget _editTasksetButton(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () =>
@@ -96,6 +128,9 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
     );
   }
 
+  ///(private)
+  ///
+  ///button to add an task to the taskset
   Widget _addTaskButton(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () =>
@@ -115,6 +150,9 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
     );
   }
 
+  ///(private)
+  ///
+  ///button to delete an specific task in the taskset
   Widget _deleteTaskButton(BuildContext context, Task task) {
     return ElevatedButton.icon(
       onPressed: () =>
@@ -134,6 +172,9 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
     );
   }
 
+  ///(private)
+  ///
+  ///provides view to edit an sepcific task in the taskset
   Widget _editTask(BuildContext context, Task task) {
     return Center(
       child: Row(
@@ -164,12 +205,18 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
     );
   }
 
+  ///(private)
+  ///
+  ///basic error screen
   Widget _errorScreen(BuildContext context, String? errorMessage) {
     return Center(
       child: Text(errorMessage ?? "Unbestimmter Fehler!"),
     );
   }
 
+  ///(private)
+  ///
+  ///used to show all availible tasks for this subject
   Widget _availibleTasksList(BuildContext context, Taskset taskset) {
     return Center(
       child: Container(
@@ -200,6 +247,10 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
     );
   }
 
+  ///(private)
+  ///
+  ///provides list of all tasks in the taskset
+  ///used in the sidebar
   Widget _tasksetTasksListView(BuildContext context, Taskset taskset) {
     return Expanded(
       child: Container(

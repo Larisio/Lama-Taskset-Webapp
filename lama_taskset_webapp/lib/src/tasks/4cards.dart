@@ -4,12 +4,22 @@ import 'package:lama_taskset_webapp/src/utils/input_validation.dart';
 import 'package:lama_taskset_webapp/src/utils/lama_text_theme.dart';
 import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
 
+///* see also
+///   [Task]
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 abstract class FourCardsFields {
   static final String question = "question";
   static final String rightAnswer = "right_answer";
   static final String wrongAnswers = "wrong_answers";
 }
 
+///* see also
+///   [Task]
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 // ignore: must_be_immutable
 class FourCards extends Task {
   String? question;
@@ -45,6 +55,9 @@ class FourCards extends Task {
     );
   }
 
+  ///used to encode the Object to JSON
+  ///
+  ///@importand never forgett the [TaskFields] of the adult class
   @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
@@ -59,6 +72,12 @@ class FourCards extends Task {
     };
   }
 
+  ///validation of the fourcards task
+  ///
+  ///@importand allway use the headIsValid() function un this funktion like:
+  ///```dart
+  /// if (headIsValid() != null) return headIsValid();
+  ///```
   @override
   String? isValid() {
     if (headIsValid() != null) return headIsValid();
@@ -72,6 +91,10 @@ class FourCards extends Task {
     return null;
   }
 
+  ///return an copy of the object
+  ///used to prevent
+  ///
+  ///@importand never forgett fields of the adult class
   @override
   Task getCopy() {
     return new FourCards(

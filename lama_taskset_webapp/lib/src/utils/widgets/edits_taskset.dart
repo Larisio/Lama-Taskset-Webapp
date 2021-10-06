@@ -11,6 +11,14 @@ import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
 // ignore: implementation_imports
 import 'package:provider/src/provider.dart';
 
+///provides view for all fields to edit an taskset
+///
+///* see also
+///   [_EditTaskState]
+///   [CreateTasksetBloc]
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 class EditTaskset extends StatefulWidget {
   Taskset taskset = Taskset();
 
@@ -24,6 +32,10 @@ class EditTaskset extends StatefulWidget {
   }
 }
 
+///provides view for all fields to edit an taskset
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 class _EditTaskState extends State<EditTaskset> {
   Taskset taskset = Taskset();
   //[_formKey] should be used to identify every Form in this Screen
@@ -45,6 +57,11 @@ class _EditTaskState extends State<EditTaskset> {
     return _editTaskset(context, taskset);
   }
 
+  ///view with all fields to edit an taskset
+  ///
+  ///@param
+  /// - BuildContext as context to use [CreateTasksetBloc]
+  /// -Taskset as taskset to display default values
   Widget _editTaskset(BuildContext context, Taskset taskset) {
     return Center(
       child: Container(

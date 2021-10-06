@@ -3,6 +3,13 @@ import 'package:flutter/services.dart';
 import 'package:lama_taskset_webapp/src/utils/input_validation.dart';
 import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
 
+///provides all fields for the task
+///
+///* see also
+///   [Task]
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 abstract class TaskFields {
   static final String taskTyp = 'task_type';
   static final String taskReward = 'task_reward';
@@ -10,6 +17,13 @@ abstract class TaskFields {
   static final String leftToSolve = 'left_to_solve';
 }
 
+///provides all basic funktions for all tasks
+///
+///* see also
+///   [Task]
+///
+/// Author: L.Kammerer
+/// latest Changes: 06.10.2021
 abstract class Task {
   final String taskTyp;
   int taskReward;
@@ -26,6 +40,8 @@ abstract class Task {
       required this.leftToSolve});
 
   Widget view(BuildContext context);
+
+  ///used to display and change all fields of the [Task] class
   Widget headView(BuildContext context) {
     return Padding(
       padding: EdgeInsets.all(15),
@@ -132,6 +148,17 @@ abstract class Task {
     );
   }
 
+  ///used to display an list item of this task
+  ///
+  ///
+  ///@params
+  /// - function as function to provide action onTap
+  /// - errorCheck to display an [Icons].check if the task is valid or [Icons].cross if not
+  ///   if errorCheck is false no validation is done or [Icon] is used
+  /// - index to show an index in front the Tasktyp
+  ///
+  /// index
+  ///@return [ListTile]
   ListTile listTile(
       {GestureTapCallback? function,
       bool errorCheck = false,
@@ -167,8 +194,15 @@ abstract class Task {
     );
   }
 
+  ///used to encode object to JSON
   Map<String, dynamic> toJson() => toMap();
+
+  ///used to encode the Object to JSON
   Map<String, dynamic> toMap();
+
+  ///used to validat the [TasksetFields]
+  ///
+  ///@return error message as [String?]
   String? headIsValid() {
     if (InputValidation.isEmpty(lamaText))
       return "Lama Text darf nicht leer sein!";

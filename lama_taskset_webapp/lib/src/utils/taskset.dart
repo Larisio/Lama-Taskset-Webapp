@@ -6,7 +6,7 @@ import 'package:lama_taskset_webapp/src/utils/input_validation.dart';
 ///Definition of all field which are used or could be used to create an full Taskset
 ///
 ///Author: L. Kammerer
-///Last changes: 30.09.2021
+///Last changes: 06.10.2021
 abstract class TasksetFields {
   static final String tasksetName = 'taskset_name';
   static final String tasksetSubject = 'taskset_subject';
@@ -19,16 +19,17 @@ abstract class TasksetFields {
 ///Definition of an full Taskset
 ///
 ///Author: L. Kammerer
-///Last changes: 30.09.2021
+///Last changes: 06.10.2021
 class Taskset {
   String? name;
   Subject subject = MathSubject();
   int grade;
+  //List of all tasks in the taskset
   List<Task> tasks = [];
-  List<String> test = [];
   bool randomizeOrder;
   int? chooseAmount;
 
+  //collection of all availible grades
   static final List<String> legalGrades = [
     "Klasse 1",
     "Klasse 2",
@@ -46,6 +47,8 @@ class Taskset {
       this.chooseAmount = 0}) {
     this.subject = tasksetSubject ?? MathSubject();
   }
+
+  ///used to validate the taskset including all tasks
   String? isValid() {
     if (InputValidation.isEmpty(name))
       return "Names des Aufgabenpakets darf nicht leer sein!";
@@ -60,14 +63,17 @@ class Taskset {
     return null;
   }
 
+  ///used to encode object to JSON
   Map<String, dynamic> toJson() => toMap();
 
+  ///used to encode the Object to JSON
   Map<String, dynamic> toMap() {
     Map<String, dynamic> map = {
       TasksetFields.tasksetName: name,
       TasksetFields.tasksetSubject: subject.name,
       TasksetFields.tasksetGrade: grade + 1
     };
+    //excluding optional params
     if (randomizeOrder)
       map.addAll(<String, dynamic>{
         TasksetFields.tasksetRandomizeOrder: randomizeOrder
@@ -75,6 +81,7 @@ class Taskset {
     if (chooseAmount != null && chooseAmount! > 0)
       map.addAll(
           <String, dynamic>{TasksetFields.tasksetChooseAmount: chooseAmount});
+    //append all tasks
     map.addAll(<String, dynamic>{TasksetFields.tasks: tasks});
     return map;
   }

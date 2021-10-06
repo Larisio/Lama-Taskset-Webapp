@@ -6,6 +6,10 @@ import 'package:lama_taskset_webapp/src/screens/home_screen.dart';
 import 'bloc/createTasksetBloc/create_taskset_bloc.dart';
 import 'bloc/homeScreenBloc/home_screen_bloc.dart';
 
+/// provides all routes used in the application
+///
+/// Author: L.Kammerer
+/// latest Changes: 01.10.2021
 class WebAppRouter {
   static final String homeRoute = "homescreen";
   static final String createTaskset = "createTaskset";

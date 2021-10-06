@@ -17,7 +17,7 @@ import 'create_taskset_state.dart';
 ///    [Bloc]
 ///
 /// Author: L.Kammerer
-/// latest Changes: 14.07.2021
+/// Latest Changes: 06.10.2021
 class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
   CreateTasksetBloc() : super(EditTasksetState(Taskset()));
   Taskset taskset = Taskset();
@@ -40,14 +40,14 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
       taskset.tasks.add(event.task.getCopy());
       yield EditTaskInTasksetState(taskset.tasks.last, taskset);
     }
-    if (event is DeleteTaskInTasksetEvent) {
-      taskset.tasks.remove(event.task);
-      yield EmptyTasksetState(taskset);
-    }
     if (event is EditTaskInTasksetEvent) {
       yield EmptyTasksetState(taskset);
       await Future.delayed(Duration(milliseconds: 30));
       yield EditTaskInTasksetState(taskset.tasks[event.taskIndex], taskset);
+    }
+    if (event is DeleteTaskInTasksetEvent) {
+      taskset.tasks.remove(event.task);
+      yield EmptyTasksetState(taskset);
     }
 
     ///Change events
@@ -67,6 +67,10 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
       taskset.randomizeOrder = event.randomOrder ?? false;
   }
 
+  ///(private)
+  ///
+  ///used to start an donwload of the taskset as JSON-File
+  ///@importand [ErrorTasksetState] is triggerd if the validation isn't successfull!
   CreateTasksetState _download() {
     if (taskset.isValid() != null)
       return ErrorTasksetState(taskset, taskset.isValid());
