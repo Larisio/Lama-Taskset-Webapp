@@ -11,6 +11,12 @@ class EmptyTasksetState extends CreateTasksetState {
   EmptyTasksetState(this.taskset) : super(taskset);
 }
 
+class ErrorTasksetState extends CreateTasksetState {
+  Taskset taskset;
+  String? error;
+  ErrorTasksetState(this.taskset, this.error) : super(taskset);
+}
+
 class EditTasksetState extends CreateTasksetState {
   Taskset taskset;
   EditTasksetState(this.taskset) : super(taskset);

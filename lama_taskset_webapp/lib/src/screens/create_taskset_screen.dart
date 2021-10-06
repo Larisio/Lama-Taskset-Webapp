@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lama_taskset_webapp/src/bloc/createTasksetBloc/create_taskset_bloc.dart';
 import 'package:lama_taskset_webapp/src/bloc/createTasksetBloc/create_taskset_event.dart';
 import 'package:lama_taskset_webapp/src/bloc/createTasksetBloc/create_taskset_state.dart';
+import 'package:lama_taskset_webapp/src/tasks/task.dart';
 import 'package:lama_taskset_webapp/src/utils/taskset.dart';
 import 'package:lama_taskset_webapp/src/utils/util_colors.dart';
 import 'package:lama_taskset_webapp/src/utils/widgets/edits_taskset.dart';
@@ -63,27 +64,10 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
                 if (state is ViewAvailableTasksTasksetState)
                   return _availibleTasksList(context, state.taskset);
                 if (state is EditTaskInTasksetState) {
-                  return Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          color: UtilsColors.greyAccent,
-                          height: 800,
-                          width: 500,
-                          child: state.task.view(context),
-                        ),
-                        SizedBox(width: 15),
-                        Container(
-                          color: UtilsColors.greyAccent,
-                          height: 500,
-                          width: 500,
-                          child: state.task.headView(context),
-                        ),
-                      ],
-                    ),
-                  );
+                  return _editTask(context, state.task);
                 }
+                if (state is ErrorTasksetState)
+                  return _errorScreen(context, state.error);
                 return Container();
               },
             ),
@@ -128,6 +112,61 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
           borderRadius: BorderRadius.circular(0),
         ),
       ),
+    );
+  }
+
+  Widget _deleteTaskButton(BuildContext context, Task task) {
+    return ElevatedButton.icon(
+      onPressed: () =>
+          context.read<CreateTasksetBloc>().add(DeleteTaskInTasksetEvent(task)),
+      icon: Icon(Icons.delete),
+      label: Text(
+        "Aufgabe entfernen",
+        style: TextStyle(fontSize: 16),
+      ),
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(_sideBarWith, 60),
+        primary: UtilsColors.redPrimary,
+        shape: BeveledRectangleBorder(
+          borderRadius: BorderRadius.circular(0),
+        ),
+      ),
+    );
+  }
+
+  Widget _editTask(BuildContext context, Task task) {
+    return Center(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            color: UtilsColors.greyAccent,
+            height: 800,
+            width: 500,
+            child: task.view(context),
+          ),
+          SizedBox(width: 15),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                color: UtilsColors.greyAccent,
+                height: 500,
+                width: 500,
+                child: task.headView(context),
+              ),
+              SizedBox(height: 25),
+              _deleteTaskButton(context, task),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _errorScreen(BuildContext context, String? errorMessage) {
+    return Center(
+      child: Text(errorMessage ?? "Unbestimmter Fehler!"),
     );
   }
 
@@ -180,6 +219,7 @@ class _CreateTasksetScreenState extends State<CreateTasksetScreen> {
                                   EditTaskInTasksetEvent(index),
                                 )
                           },
+                      index: index,
                       errorCheck: true),
                 );
               },

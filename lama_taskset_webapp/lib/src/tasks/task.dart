@@ -62,8 +62,7 @@ abstract class Task {
                     validator: (value) {
                       int? check;
                       check = int.tryParse(value!);
-                      if (check == null || check <= 0)
-                        return "Zahlenwert zu klein!";
+                      if (check == null || check <= 0) return "Zu klein!";
                       return null;
                     },
                     textAlign: TextAlign.center,
@@ -88,8 +87,7 @@ abstract class Task {
                     validator: (value) {
                       int? check;
                       check = int.tryParse(value!);
-                      if (check == null || check <= 0)
-                        return "Zahlenwert zu klein!";
+                      if (check == null || check <= 0) return "Zu klein!";
                       return null;
                     },
                     textAlign: TextAlign.center,
@@ -112,15 +110,21 @@ abstract class Task {
                 ),
               ],
             ),
-            SizedBox(width: 15),
-            TextButton(
-              child: Text("Fertig"),
+            SizedBox(height: 25),
+            ElevatedButton.icon(
+              icon: Icon(Icons.check),
+              label: Text("Prüfen"),
               onPressed: () {
                 _formKey.currentState!.validate();
                 formKeyChild.currentState!.validate();
               },
-              style: ButtonStyle(
-                  minimumSize: MaterialStateProperty.all(Size(150, 50))),
+              style: ElevatedButton.styleFrom(
+                minimumSize: Size(150, 60),
+                primary: UtilsColors.greenPrimary,
+                shape: BeveledRectangleBorder(
+                  borderRadius: BorderRadius.circular(0),
+                ),
+              ),
             )
           ],
         ),
@@ -128,11 +132,49 @@ abstract class Task {
     );
   }
 
-  ListTile listTile({GestureTapCallback? function, bool errorCheck = false});
+  ListTile listTile(
+      {GestureTapCallback? function,
+      bool errorCheck = false,
+      int? index = null}) {
+    Widget indexRow = index != null
+        ? Row(
+            children: [
+              Text("${index + 1}. "),
+              Text(taskTyp),
+            ],
+          )
+        : Text(taskTyp);
+    if (errorCheck) {
+      return ListTile(
+        onTap: function,
+        title: Column(
+          children: [
+            indexRow,
+            isValid() == null
+                ? Icon(Icons.check, color: UtilsColors.greenPrimary)
+                : Icon(Icons.close, color: UtilsColors.redPrimary)
+          ],
+        ),
+      );
+    }
+    return ListTile(
+      onTap: function,
+      title: Column(
+        children: [
+          Text(taskTyp),
+        ],
+      ),
+    );
+  }
+
   Map<String, dynamic> toJson() => toMap();
   Map<String, dynamic> toMap();
   String? headIsValid() {
-    if (taskReward < 0) return "head error";
+    if (InputValidation.isEmpty(lamaText))
+      return "Lama Text darf nicht leer sein!";
+    if (taskReward <= 0 || leftToSolve <= 0)
+      return "Aufgabenbelohnung und lösungs Anzahl mit Belohnung muss größer 0 sein!";
+    return null;
   }
 
   String? isValid();

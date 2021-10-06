@@ -49,11 +49,13 @@ class Taskset {
   String? isValid() {
     if (InputValidation.isEmpty(name))
       return "Names des Aufgabenpakets darf nicht leer sein!";
+    if (chooseAmount == null || chooseAmount! > tasks.length)
+      return "Anzahl zufällig genutzer Aufgaben darf nicht höher sein als die Aufgabenanzahl!";
     if (tasks.length == 0) return "Aufgabenpaket enthält keine Aufgaben!";
     for (int i = 0; i < tasks.length; i++) {
       String? check = tasks[i].isValid();
       if (check != null)
-        return "Fehler in Aufgabe! \n Nummer: $i \n Typ: ${tasks[i].taskTyp} \n Hinweis: $check";
+        return "Fehler in Aufgabe! \n Nummer: ${i + 1} \n Typ: ${tasks[i].taskTyp} \n Hinweis: $check";
     }
     return null;
   }

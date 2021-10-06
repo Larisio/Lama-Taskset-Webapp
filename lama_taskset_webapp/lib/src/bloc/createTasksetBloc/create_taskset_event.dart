@@ -17,6 +17,11 @@ class AddTaskToTasksetEvent extends CreateTasksetEvent {
   AddTaskToTasksetEvent(this.task);
 }
 
+class DeleteTaskInTasksetEvent extends CreateTasksetEvent {
+  Task task;
+  DeleteTaskInTasksetEvent(this.task);
+}
+
 class EditTaskInTasksetEvent extends CreateTasksetEvent {
   int taskIndex;
   EditTaskInTasksetEvent(this.taskIndex);

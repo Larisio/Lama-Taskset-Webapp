@@ -46,29 +46,6 @@ class FourCards extends Task {
   }
 
   @override
-  ListTile listTile({GestureTapCallback? function, bool errorCheck = false}) {
-    if (errorCheck) {
-      return ListTile(
-        onTap: function,
-        title: Column(
-          children: [
-            Text(taskTyp),
-            Icon(isValid() != null ? Icons.check : Icons.close)
-          ],
-        ),
-      );
-    }
-    return ListTile(
-      onTap: function,
-      title: Column(
-        children: [
-          Text(taskTyp),
-        ],
-      ),
-    );
-  }
-
-  @override
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       TaskFields.taskTyp: taskTyp,
@@ -85,7 +62,14 @@ class FourCards extends Task {
   @override
   String? isValid() {
     if (headIsValid() != null) return headIsValid();
-    return "body error";
+    if (InputValidation.isEmpty(question)) return "Frage darf nicht leer sein!";
+    if (InputValidation.isEmpty(rightAnswer))
+      return "Richtige Antwort darf nicht leer sein";
+    for (int i = 0; i < wrongAnswers.length; i++) {
+      if (InputValidation.isEmpty(wrongAnswers[i]))
+        return "Falsche Antworten dürfen nicht leer sein! \n Antwort ${i + 1} fehlt!";
+    }
+    return null;
   }
 
   @override

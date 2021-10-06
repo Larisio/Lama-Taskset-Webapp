@@ -24,7 +24,7 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
 
   @override
   Stream<CreateTasksetState> mapEventToState(CreateTasksetEvent event) async* {
-    if (event is TasksetJsonDownloadEvent) _download();
+    if (event is TasksetJsonDownloadEvent) yield _download();
 
     //Edit Taskset Events
     if (event is EditTasksetEvent) yield EditTasksetState(taskset);
@@ -39,6 +39,10 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
     if (event is AddTaskToTasksetEvent) {
       taskset.tasks.add(event.task.getCopy());
       yield EditTaskInTasksetState(taskset.tasks.last, taskset);
+    }
+    if (event is DeleteTaskInTasksetEvent) {
+      taskset.tasks.remove(event.task);
+      yield EmptyTasksetState(taskset);
     }
     if (event is EditTaskInTasksetEvent) {
       yield EmptyTasksetState(taskset);
@@ -57,26 +61,15 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
           .first;
     if (event is CTChangePickAmountEvent)
       int.tryParse(event.pickAmount) == null
-          ? taskset.chooseAmount = -1
+          ? taskset.chooseAmount = 0
           : taskset.chooseAmount = int.tryParse(event.pickAmount);
     if (event is CTChangeRandomOrderEvent)
       taskset.randomizeOrder = event.randomOrder ?? false;
   }
 
-  /* void _downloadJSON() {
-    print(taskset.toString());
-    print(jsonEncode(taskset));
-
-    File file = // generated somewhere
-    final rawData = file.readAsBytesSync();
-    final content = base64Encode(rawData);
-    final anchor = AnchorElement(
-      href: "data:application/octet-stream;charset=utf-16le;base64,$content")
-    ..setAttribute("download", "${taskset.name}.json")
-    ..click();
-  }
-  */
-  void _download() {
+  CreateTasksetState _download() {
+    if (taskset.isValid() != null)
+      return ErrorTasksetState(taskset, taskset.isValid());
     List<int> bytes = utf8.encode(jsonEncode(taskset));
     String downloadName = taskset.name ?? "Aufgabenpaket";
     // Encode our file in base64
@@ -91,6 +84,6 @@ class CreateTasksetBloc extends Bloc<CreateTasksetEvent, CreateTasksetState> {
     document.body?.append(anchor);
     anchor.click();
     anchor.remove();
-    return;
+    return EmptyTasksetState(taskset);
   }
 }
