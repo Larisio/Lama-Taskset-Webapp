@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+/// Author: L.Kammerer
+/// latest Changes: 01.10.2021
 class UtilsColors {
   static Color greyPrimary = Color.fromARGB(255, 80, 80, 80);
   static Color greyAccent = Color.fromARGB(255, 220, 220, 220);
